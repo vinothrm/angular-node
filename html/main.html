@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html ng-app="angularnode">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="../app/css/style.css" rel="stylesheet" media="screen">
+    <!--<script src="../app/js/angular-node.min.js"></script>-->
+    <script src="../assets/jspackage/bundle.js"></script>
+</head>
+<body>
+<!--<input type="text" class="form-control" name="firstname" ng-model="name">-->
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="#" class="navbar-brand">Project name</a>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar">
+            <ul class="nav navbar-nav">
+                <li ng-class="{active : activeState == 'home'}"><a ui-sref="home">Home</a></li>
+                <li ng-class="{active : activeState == 'about'}"><a ui-sref="about">About</a></li>
+                <li ng-class="{active : activeState == 'table'}"><a ui-sref="table">Table</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-class="{active : activeState == 'template1'}"><a ui-sref="template1">Template1</a></li>
+                <li ng-class="{active : activeState == 'profile'}" ng-show="loggedUser"><a ui-sref="profile">{{loggedUser}}</a></li>
+                <li ng-class="{active : activeState == 'login'}"><a ng-hide="loggedUser" ui-sref="login">Login</a><a ng-show="loggedUser" ui-sref="logout">Logout</a> </li>
+
+
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<div class="container">
+    <div ui-view></div>
+</div>
+
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+    });
+</script>
+</html>
