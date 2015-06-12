@@ -1,0 +1,2 @@
+# angular-node
+npm install
