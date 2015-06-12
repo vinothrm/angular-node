@@ -1,3 +1,5 @@
 *.iml
 .idea
 /node-modules
+/.sass-cache
+/.idea
