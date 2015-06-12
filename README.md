@@ -1,12 +1,18 @@
 angular-node
 ==============
-npm install
 
 Install
 =======
 
 ```bash
 npm install
+```
+
+Build
+=====
+
+```javascript
+grunt default
 ```
 
 Run
