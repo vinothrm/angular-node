@@ -52,7 +52,7 @@ module.exports = function(grunt) {
 
 
     grunt.registerTask('default', ['browserify','uglify','sass']);
-    grunt.registerTask('default1', ['browserify','uglify']);
+    grunt.registerTask('onlyJS', ['browserify','uglify']);
 
 
 };

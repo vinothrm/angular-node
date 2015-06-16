@@ -34,8 +34,6 @@
                 <li ng-class="{active : activeState == 'template1'}"><a ui-sref="template1">Template1</a></li>
                 <li ng-class="{active : activeState == 'profile'}" ng-show="loggedUser"><a ui-sref="profile">{{loggedUser}}</a></li>
                 <li ng-class="{active : activeState == 'login'}"><a ng-hide="loggedUser" ui-sref="login">Login</a><a ng-show="loggedUser" ui-sref="logout">Logout</a> </li>
-
-
             </ul>
         </div><!--/.nav-collapse -->
     </div>

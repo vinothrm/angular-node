@@ -1,19 +1,19 @@
-var rest = require('restler');
-
-Server.expressApp.get('/', function (req, res) {
-    res.send('Hello World!');
-});
-
-Server.expressApp.post('/login', function (req, res) {
-    console.log(req.body.userName);
-    rest.post(SER_LOGIN, {
-        data: { userName: req.body.userName,passWord: req.body.passWord ,proxy: req.body.proxy },
-        headers : {
-            'Content-Type':'application/x-www-form-urlencoded'
-        }
-    }).on('complete', function(data, response) {
-        console.log(data.result);
-        res.set({ 'content-type': 'application/json; charset=utf-8' })
-        res.send(data);
+module.exports = function(app,rest,passport,auth){
+    app.get('/', function (req, res) {
+        res.send('Hello World!');
     });
-});
+
+    app.get('/isLogged', auth, function(req, res){
+        res.send(req.user);
+    });
+
+    app.post('/login', passport.authenticate('local'), function(req, res) {
+        res.send(req.user);
+    });
+
+    app.post('/logout', function(req, res){
+        req.logOut();
+        res.sendStatus(200);
+    });
+
+};

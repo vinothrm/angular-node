@@ -1,11 +1,8 @@
 var angular = require('angular');
 var angularuirouter = require('angular-ui-router');
 var angularcookies = require('angular-cookies');
-var $ = require('jquery');
-angular.$ = $;
 var ngstorage = require('ngstorage');
-var underscore = require('underscore');
-var uuid = require('node-uuid');
+var request = require('request');
 require('../../projectvar');
 
 module.exports = App = function App() {
@@ -15,9 +12,8 @@ module.exports = App = function App() {
 
 App.prototype.start = function(){
     console.log('the start function is running');
-    require('./Config/MainConfig');
-    require('./Config/MainRun');
-    /*require('./Controller/MainController');*/
+    require('./Config/MainConfig')(App.as,request);
+    require('./Config/MainRun')(App.as,request);
 };
 
 var myApp = new App();

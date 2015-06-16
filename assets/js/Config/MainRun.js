@@ -1,19 +1,22 @@
-App.as.run(['$rootScope','$state','$cookieStore','$sessionStorage',function ($rootScope,$state,$cookieStore,$sessionStorage) {
+module.exports = function(app,request){
+    app.run(['$rootScope','$state','$cookieStore','$sessionStorage',function ($rootScope,$state,$cookieStore,$sessionStorage) {
 
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+        $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
 
-        $rootScope.loggedUser = $sessionStorage.loggedUser || undefined;
+            if(toState.data.requireLogin){
 
-        var requireLogin = toState.data.requireLogin;
-        console.log("logged in user : " + JSON.stringify($rootScope.loggedUser));
-        if (requireLogin && $rootScope.loggedUser === undefined) {
-            event.preventDefault();
-            console.log("require Login");
-            return $state.go('login');
-        }else{
-            $rootScope.activeState = toState.name;
-            console.log("login not required");
-        }
-    });
+                request.get({url:APP_IS_LOGGED}, function (e, r, user) {
+                    if(r.statusCode == 401){
+                        return $state.go('login');
+                    }
+                    $rootScope.activeState = toState.name;
+                    console.log(user);
+                });
 
-}]);
+            }else{
+                $rootScope.activeState = toState.name;
+            }
+        });
+
+    }]);
+};

@@ -1,77 +1,66 @@
-var request = require('request');
-App.as.controller('LoginController',['$rootScope','$scope','$cookieStore','$q','$state','$sessionStorage', function($rootScope,$scope,$cookieStore,$q,$state,$sessionStorage) {
+module.exports = function(app,request){
+    app.controller('LoginController',['$rootScope','$scope','$cookieStore','$q','$state','$sessionStorage', function($rootScope,$scope,$cookieStore,$q,$state,$sessionStorage) {
 
-    $rootScope.loggedUser = $sessionStorage.loggedUser || undefined;
+        $rootScope.loggedUser = $sessionStorage.loggedUser || undefined;
 
-    $rootScope.activeheader = 'active';
+        $rootScope.activeheader = 'active';
 
-    $scope.loggedIn = $cookieStore.get('loggedin');
+        $scope.user = {
+            userName:'',
+            passWord:'',
+            error:''
+        };
 
-    if ($scope.loggedIn == "true") {
-        $scope.loggedOut = "";
-    }
-    else {
-        $scope.loggedOut = "true";
-        $cookieStore.put('loggedin',"false");
-    }
+        $scope.errorObj = '';
 
-    $scope.user = {
-        userName:'A',
-        passWord:'B',
-        error:'f'
-    };
+        asyncPOST = function(data){
 
-    $scope.errorObj = '';
+            var deferred = $q.defer();
 
-    asyncPOST = function(data){
+            deferred.notify('About to authenticate ' + data.userName + '.');
 
-        var deferred = $q.defer();
-
-        deferred.notify('About to authenticate ' + data.userName + '.');
-
-        request.post(
-            {
-                url: APP_LOGIN_URL,
-                form: {
-                    userName: data.userName,
-                    passWord: data.passWord,
-                    proxy:'Portal'
+            request.post(
+                {
+                    url: APP_LOGIN_URL,
+                    form: {
+                        username: data.userName,
+                        password: data.passWord,
+                        proxy:'Portal'
+                    }
+                },function(err,httpResponse,body){
+                    if(httpResponse.statusCode == 200){
+                        deferred.resolve('authenticate success.');
+                    }else{
+                        deferred.reject('authenticate failure.');
+                    }
                 }
-            },function(err,httpResponse,body){
-                console.log(body);
-                responseBody = JSON.parse(body);
-                if(responseBody.result == 'SUCCESS') {
-                    $cookieStore.put('loggedin', "true");
-                    deferred.resolve('authenticate success' + data.userName + '.');
-                }else{
-                    $cookieStore.put('loggedin', "false");
-                    deferred.reject('authenticate failure ' + responseBody.result + '.');
-                }
-            }
-        );
+            );
 
-        return deferred.promise;
-    };
+            return deferred.promise;
+        };
 
-    $scope.loginUser = function(user){
-        var promise = asyncPOST(user);
-        promise.then(function(greeting) {
-            /*resolve*/
-            console.log(greeting);
-            $scope.errorObj = greeting;
-            $sessionStorage.loggedUser = user.userName;
-            $state.go('home');
-        }, function(reason) {
-            /*reject*/
-            console.log(reason);
-            $scope.errorObj = reason;
-        }, function(update) {
-            /*notify*/
-            console.log(update);
-            $scope.errorObj = update;
-        });
-    };
+        $scope.loginUser = function(user){
+            var promise = asyncPOST(user);
+            promise.then(function(greeting) {
+                /*resolve*/
+                console.log(greeting);
+                $scope.errorObj = greeting;
+                $sessionStorage.loggedUser = user.userName;
+                $state.go('home');
+            }, function(reason) {
+                /*reject*/
+                console.log(reason);
+                $scope.errorObj = reason;
+            }, function(update) {
+                /*notify*/
+                console.log(update);
+                $scope.errorObj = update;
+            });
+        };
 
-    console.log('cookie login : ' + $cookieStore.get('loggedin'));
+        console.log('cookie login : ' + $cookieStore.get('loggedin'));
 
-}]);
+    }]);
+};
+
+
