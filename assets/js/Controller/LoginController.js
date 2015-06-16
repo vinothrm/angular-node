@@ -46,6 +46,7 @@ module.exports = function(app,request){
                 console.log(greeting);
                 $scope.errorObj = greeting;
                 $sessionStorage.loggedUser = user.userName;
+                $rootScope.loggedUser = user.userName;
                 $state.go('home');
             }, function(reason) {
                 /*reject*/

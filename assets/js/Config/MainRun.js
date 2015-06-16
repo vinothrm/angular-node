@@ -3,6 +3,7 @@ module.exports = function(app,request){
 
         $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
 
+            $rootScope.loggedUser = $sessionStorage.loggedUser || undefined;
             if(toState.data.requireLogin){
 
                 request.get({url:APP_IS_LOGGED}, function (e, r, user) {
