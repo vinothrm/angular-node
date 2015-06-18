@@ -3,7 +3,7 @@ module.exports = function(app,rest,passport,auth){
         res.send('Hello World!');
     });
 
-    app.get('/isLogged', auth, function(req, res){
+    app.get('/loggedin', auth, function(req, res){
         res.send(req.user);
     });
 
