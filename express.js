@@ -57,7 +57,14 @@ module.exports = Server = function Server() {
     Server.expressApp.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
     Server.expressApp.use(cookieParser());
     Server.expressApp.use(methodOverride());
-    Server.expressApp.use(expressSession({ secret: 'securedsession',resave: true,saveUninitialized: true }));
+    Server.expressApp.use(expressSession({
+        secret: 'securedsession',
+        resave: true,
+        saveUninitialized: true,
+        cookie:{
+            maxAge : 3600000
+        }
+    }));
     Server.expressApp.use(passport.initialize());
     Server.expressApp.use(passport.session());
     Server.expressApp.use(express.static('app'));
